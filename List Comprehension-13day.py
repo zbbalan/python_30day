@@ -20,3 +20,17 @@ print(events) ##生成0 --10  的偶数列
 
 evens = [ i for i in range(10) if i %2 != 0]
 print(evens) ##生成0 --10  的奇数列
+
+##lambda 函数
+add = lambda x,y:x+y
+print(add(1,2))  ##print(3)
+
+list_num = list(map(lambda x,y:x+y,[1,2,3,4,5],[2,3,4,5,6]))
+print(list_num)
+
+###Lambda函数在另一个函数中
+def add_num(x):
+    return lambda n: x**n
+cube = add_num(2)(2)
+print(cube)  ##print(4)
+
