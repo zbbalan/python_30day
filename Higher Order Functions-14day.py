@@ -153,11 +153,11 @@ def square2(num):
         return True
     return False  
 event_num2 = filter(square2,numbers3)
-print(list(event_num2))
+print(list(event_num2))  ##[1, 3, 5, 7, 9]
 
 def names_length(name):
     if len(name) > 7:
         return True
     return False
 event_names = filter(names_length,names)
-print(list(event_names))
+print(list(event_names))  ##['Asabeneh']
