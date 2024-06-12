@@ -1,11 +1,19 @@
 #!/bin/bash
+echo "请输入目标物理机主机的IP地址:"
+read WL_REMOTE_HOST_IP
+
+echo "请输入目标虚拟机主机的IP地址:"
+read XN_REMOTE_HOST_IP
+
 
 # 定义目标主机的IP地址
-REMOTE_HOST_IP="192.168.1.100"
+#WL_REMOTE_HOST_IP="192.168.1.100"
 HOSTNAME=$(hostname -I | awk -F ' ' '{print $1}')
+mkdir $HOSTNAME-$WL_REMOTE_HOST_IP
+mkdir $HOSTNAME-$XN_REMOTE_HOST_IP
 # 定义输出文件前缀
-OUTPUT_FILE_PREFIX="$HOSTNAME-$REMOTE_HOST_IP_$(date +%Y%m%d)_"
-
+OUTPUT_FILE_PREFIX="$HOSTNAME-$WL_REMOTE_HOST_IP-$(date +%Y%m%d)_"
+OUTPUT_FILE_PREFIX="$HOSTNAME-$XN_REMOTE_HOST_IP-$(date +%Y%m%d)_"
 # 检查是否已存在守护进程，避免重复启动
 if [ -f "/tmp/${OUTPUT_FILE_PREFIX}pid" ]; then
     echo "守护进程已在运行，请勿重复启动。"
@@ -20,8 +28,8 @@ monitor_with_ping() {
     local timestamp=$(date +%Y%m%d_%H%M%S)
     local output_file="${OUTPUT_FILE_PREFIX}${timestamp}.txt"
     
-    # 使用ping进行测试，这里使用-c 10进行10次测试
-    ping_stats=$(ping -c 10 $REMOTE_HOST_IP)
+    # 使用ping进行测试，这里使用-c 100进行100次测试
+    ping_stats=$(ping -c 100 $WL_REMOTE_HOST_IP)
 
     # 提取丢包率
     packet_loss=$(echo "$ping_stats" | grep -oP '\d+(?=% packet loss)')
@@ -47,5 +55,8 @@ echo "网络监控（使用ping）开始于: $(date)" > "${OUTPUT_FILE_PREFIX}su
 # 作为守护进程每分钟执行一次测试
 while true; do
     monitor_with_ping
-    sleep 60
+    sleep 120
 done
+
+# 清理操作，当脚本正常退出时执行（但作为守护进程这行代码实际上不会执行到）
+kill -9 $(cat "/tmp/${OUTPUT_FILE_PREFIX}pid")

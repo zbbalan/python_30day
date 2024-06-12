@@ -68,5 +68,38 @@ print(list(numbers)) ##[2,3,4,5,6,7]
 
 Tmples = ['Finland', 'Sweden', 'Norway', 'Denmark', 'Iceland']
 fir,*rest,tme,aln = Tmples
+print(*rest)
 
-    
+
+##解包字典
+def info_unicode(name,city,age,county):
+    return f'your{name}last{city},is{age},and{county}'
+dect = {'name':'alan','city':'beijing','age':'18','county':'china'}
+print(info_unicode(**dect))
+
+##打包,有时候，我们永远不知道有多少参数需要传递给一个Python函数。
+#我们可以使用packing方法来允许我们的函数接受无限数量或任意数量的参数
+def num_all(*agr):
+    s = 0
+    for i in agr:
+        s += i
+    return s
+print(num_all(1,2,3,4,5,6,7,8,9,10)) 
+
+def packing_dictionary(**kwargs):
+    for key in kwargs:
+        print(f'{key} = kwargs[key]')
+    return kwargs
+print(packing_dictionary(name='alan',city='beijing',age='18',county='china'))
+
+##如果我们对一个列表的索引感兴趣，我们使用enumerate内置函数来获取列表中每个项目的索引。
+for index,item in enumerate([20,30,40]):
+    print(index,item)
+
+countries = ['Findlond','Sweden','Norway','Denmark','Iceland']
+for index,i in enumerate(countries):
+   # print('hi')
+    if i == 'Findlond':
+        print(f'The country {i} has been found at index {index}')
+
+ 
