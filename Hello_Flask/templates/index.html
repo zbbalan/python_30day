@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            {{name}} is Alan
+         </title>
+    </head>
+    <body>
+        <h2>
+            {{name}} is Alan
+        </h2>
+        <p> {{movies|length}} Title</p>
+        <url>
+{%for movie in movies%}
+<li>
+    {{ movie.title }} - {{ movie.year }}
+</li>
+{%endfor%}
+
+
+        </url>
+      <img src="{{url_for('static', filename='static/AAA.png')}}" alt="Alan">
+        <footer>
+            <small>&copy; 2018 <a href="http://helloflask.com/book/3">HelloFlask</a></small>
+        </footer>
+    </body>
+
+
+</html>
